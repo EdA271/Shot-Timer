@@ -34,17 +34,7 @@ def plot_fft(xf, yf, sample_rate):
     plt.grid()
     plt.show()
 
-def plot_audio_waveform(video_file):
-    # Load the video and extract audio
-    video = mp.VideoFileClip(video_file)
-    audio = video.audio
-
-    # Convert audio to a numpy array
-    audio_samples = audio.to_soundarray(fps=44100)
-    
-    # Convert to mono by averaging the channels if it's stereo
-    if audio_samples.shape[1] == 2:
-        audio_samples = np.mean(audio_samples, axis=1)
+def plot_audio_waveform(audio, audio_samples):
     
     # Calculate the time axis for the plot
     duration = audio.duration  # Duration in seconds
@@ -61,16 +51,15 @@ def plot_audio_waveform(video_file):
 
 
 if __name__ == "__main__":
-    video_file = "test1.mp4"  # Replace with your video file path
+    video_file = "/Data/test1.mp4"
     sample_rate = 44100  # Sample rate in Hz
 
     # Extract and process audio
     audio = extract_audio_from_video(video_file)
     audio_samples = audio_to_array(audio)
+    plot_audio_waveform(audio, audio_samples)
 
     # Run FFT and plot
     xf, yf = run_fft(audio_samples, sample_rate)
-    # print(xf)
-    # print(yf)
-    # plot_fft(xf, yf, sample_rate)
-    plot_audio_waveform(video_file)
+    plot_fft(xf, yf, sample_rate)
+    
